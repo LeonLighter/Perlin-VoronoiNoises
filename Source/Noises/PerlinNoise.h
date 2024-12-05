@@ -25,32 +25,28 @@ class NOISES_API UPerlinNoise : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-	
-	
-	//étape 1 : définir une grille de 2 dimensions et attacher à chaque élément de cette grille un vecteur aléatoire
-	//ce vecteur est généré grâce à une fonction de distribution uniforme qui retourne un nombre et ce nombre est projeté sur une sphère
-	UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	static void GenerateRandomVectors(int32 Seed, TArray<FVector2D>& RandomVectors);
+	// Générer une texture de Perlin Noise
+	UFUNCTION(BlueprintCallable, Category = "Procedural Generation|Noise")
+	static UTexture2D* GeneratePerlinNoiseTexture(
+		UPARAM(meta = (ClampMin = "1", ClampMax = "2048")) int32 Width = 256,
+		UPARAM(meta = (ClampMin = "1", ClampMax = "2048")) int32 Height = 256,
+		UPARAM(meta = (ClampMin = "0.01", ClampMax = "10.0")) float Scale = 1.0f,
+		UPARAM(meta = (ClampMin = "1", ClampMax = "8")) int32 Octaves = 4,
+		UPARAM(meta = (ClampMin = "0.0", ClampMax = "1.0")) float Persistence = 0.5f,
+		UPARAM(meta = (ClampMin = "1.0", ClampMax = "4.0")) float Frequencies = 2.0f,
+		UPARAM(meta = (ClampMin = "0", ClampMax = "10000")) int32 Seed = 0
+	);
 
-	//étape 2 : la deuxième étape consiste pour un point N dans chaque cellule de calculer un vecteur de distance entre chaque bord de la cellule et le point
-	//une fois que l'on a ce vecteur on peut calculer le produit scalaire entre ce vecteur et le vecteur aléatoire de la cellule
-	UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	static float DotGridGradient(int32 Seed, int32 X, int32 Y, float XCoord, float YCoord, const TArray<FVector2D>& RandomVectors);
-
-	//étape 3 : une fois que l'on a calculé le produit scalaire pour chaque bord de la cellule on peut interpoler ces valeurs
-	UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	static float Interpolate(float A, float B, float X);
-
-	//étape 4 : on utilise le système d'octave, on va définir le bruit de perlin comme n'importe quelle onde, l'axe Y va devenir l'amplitude de l'onde et l'axe X la fréquence
-	//on va donc ajouter plusieurs onde de fréquence différentes et d'amplitude différentes pour obtenir un bruit de perlin plus complexe
-	UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	static float PerlinNoise2D(int32 Seed, float X, float Y, float Frequency, int32 Octaves, float Persistence, const TArray<FVector2D>& RandomVectors);
-
-	//étape 5 : on utilise la fonction de bruit de perlin pour générer une texture2D
-	//UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	//static UTexture2D* GeneratePerlinNoiseTexture(int32 Width, int32 Height, int32 Seed, float Frequency, int32 Octaves, float Persistence);
-
-	//afficher le résultat du perlin noise dans la console
-	UFUNCTION(BlueprintCallable, Category = "Perlin Noise")
-	static void PrintPerlinNoise(int32 Width, int32 Height, int32 Seed, float Frequency, int32 Octaves, float Persistence);
+private:
+	// Méthode utilitaire pour calculer le bruit de Perlin
+	static float PerlinNoise2D(float X, float Y, int32 Seed);
+    
+	// Interpolation linéaire
+	static float Lerp(float A, float B, float T);
+    
+	// Fonction de bruit pseudo-aléatoire
+	static float Noise(int32 X, int32 Y, int32 Seed);
+    
+	// Fonction de gradient
+	static float Dot(int32 Hash, float X, float Y);
 };
