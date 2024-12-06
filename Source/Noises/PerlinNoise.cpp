@@ -7,7 +7,7 @@
 
 UTexture2D* UPerlinNoise::GeneratePerlinNoiseTexture(
     int32 Width, int32 Height, float Scale, int32 Octaves, 
-    float Persistence, float Lacunarity, int32 Seed)
+    float Persistence, float Frequencies, int32 Seed)
 {
     // Créer la texture 2D
     UTexture2D* NoiseTexture = UTexture2D::CreateTransient(Width, Height, PF_R8G8B8A8);
@@ -50,7 +50,7 @@ UTexture2D* UPerlinNoise::GeneratePerlinNoiseTexture(
                 Noise += PerlinValue * CurrentAmplitude;
 
                 // Mise à jour de la fréquence et de l'amplitude
-                Frequency *= Lacunarity;
+                Frequency *= Frequencies;
                 CurrentAmplitude *= Persistence;
             }
 

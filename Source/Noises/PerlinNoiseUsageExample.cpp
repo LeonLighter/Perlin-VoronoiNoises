@@ -18,8 +18,7 @@ void APerlinNoiseUsageExample::GeneratePerlinNoiseTexture()
 		Octaves,
 		Persistence,
 		Frequencies,
-		Seed,
-		FString::Printf(TEXT("Textures/PerlinNoise_%d"), FDateTime::Now().GetTicks())
+		Seed
 	);
 }
 
