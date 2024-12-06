@@ -21,16 +21,16 @@ public:
 	int32 TextureHeight = 256;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Noise Generation")
-	float NoiseScale = 1.0f;
+	float NoiseScale = 8.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Noise Generation")
-	int32 Octaves = 4;
+	int32 Octaves = 3;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Noise Generation")
-	float Persistence = 0.5f;
+	float Persistence = 1.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Noise Generation")
-	float Frequencies = 2.0f;
+	float Frequencies = 6.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Noise Generation")
 	int32 Seed = 0;
@@ -39,6 +39,6 @@ public:
 	class UTexture2D* GeneratedNoiseTexture;
 
 	UFUNCTION(BlueprintCallable, Category = "Noise Generation")
-	void GeneratePerlinNoiseTexture();
+	UTexture2D* GeneratePerlinNoiseTexture();
 	
 };

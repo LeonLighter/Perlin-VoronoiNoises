@@ -7,7 +7,7 @@ APerlinNoiseUsageExample::APerlinNoiseUsageExample()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void APerlinNoiseUsageExample::GeneratePerlinNoiseTexture()
+UTexture2D* APerlinNoiseUsageExample::GeneratePerlinNoiseTexture()
 {
 	// Générer la texture en utilisant la bibliothèque de bruit de Perlin
 	// Sauvegarder dans le dossier Content du projet
@@ -20,5 +20,7 @@ void APerlinNoiseUsageExample::GeneratePerlinNoiseTexture()
 		Frequencies,
 		Seed
 	);
+
+	return GeneratedNoiseTexture;
 }
 
